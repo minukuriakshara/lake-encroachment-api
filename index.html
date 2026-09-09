@@ -84,36 +84,28 @@
 </header>
 
 <div class="container">
+<div class="card">
+    <h2>📊 Monitoring Result</h2>
 
-    <div class="card">
-        <h2>📍 Monitoring Location</h2>
-        <p><strong>Lake:</strong> Hussain Sagar Lake, Hyderabad</p>
-        <p><strong>Satellite:</strong> Sentinel-2</p>
-        <p><strong>Image Date:</strong> 2026-09-06</p>
-    </div>
+    <div class="stats">
 
-    <div class="card">
-        <h2>📊 Monitoring Result</h2>
-
-        <div class="stats">
-
-            <div class="stat">
-                <p>Detected Water</p>
-                <h2>62.5%</h2>
-            </div>
-
-            <div class="stat">
-                <p>Water Pixels</p>
-                <h2>40,959</h2>
-            </div>
-
-            <div class="stat">
-                <p>Total Pixels</p>
-                <h2>65,536</h2>
-            </div>
-
+        <div class="stat">
+            <p>Detected Water</p>
+            <h2 id="waterPercentage">Loading...</h2>
         </div>
 
+        <div class="stat">
+            <p>Water Pixels</p>
+            <h2 id="waterPixels">Loading...</h2>
+        </div>
+
+        <div class="stat">
+            <p>Total Pixels</p>
+            <h2 id="totalPixels">Loading...</h2>
+        </div>
+
+    </div>
+    
         <br>
 
         <div class="prototype">
@@ -147,10 +139,26 @@
     const API_URL = "https://lake-monitoring-api.onrender.com";
 
     document.getElementById("waterMask").src =
-        API_URL + "/water-mask";
+    API_URL + "/water-mask";
 
-    document.getElementById("satelliteImage").src =
-        API_URL + "/satellite-image";
+document.getElementById("satelliteImage").src =
+    API_URL + "/satellite-image";
+
+fetch(API_URL + "/monitoring")
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("waterPercentage").textContent =
+            data.detected_water_percentage + "%";
+
+        document.getElementById("waterPixels").textContent =
+            data.water_pixels.toLocaleString();
+
+        document.getElementById("totalPixels").textContent =
+            data.total_pixels.toLocaleString();
+    })
+    .catch(error => {
+        console.error("API error:", error);
+    });
 
 </script>
 
