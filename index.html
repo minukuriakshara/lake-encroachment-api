@@ -1,3 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lake Encroachment Monitoring</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f7f9;
+            color: #222;
+        }
+
+        header {
+            background: #0b5d7a;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .stat {
+            padding: 20px;
+            background: #e8f4f8;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat h2 {
+            margin: 5px 0;
+            color: #0b5d7a;
+        }
+
+        img {
+            width: 100%;
+            max-width: 700px;
+            display: block;
+            margin: 15px auto;
+            border-radius: 8px;
+        }
+
+        .prototype {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #ffc107;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌊 Lake Encroachment Monitoring</h1>
+    <p>Satellite-Based Lake Monitoring System</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>📍 Monitoring Location</h2>
+        <p><strong>Lake:</strong> Hussain Sagar Lake, Hyderabad</p>
+        <p><strong>Satellite:</strong> Sentinel-2</p>
+        <p><strong>Image Date:</strong> 2026-09-06</p>
+    </div>
+
+    <div class="card">
+        <h2>📊 Monitoring Result</h2>
+
+        <div class="stats">
+
+            <div class="stat">
+                <p>Detected Water</p>
+                <h2 id="waterPercentage">Loading...</h2>
+            </div>
+
+            <div class="stat">
+                <p>Water Pixels</p>
+                <h2 id="waterPixels">Loading...</h2>
+            </div>
+
+            <div class="stat">
+                <p>Total Pixels</p>
+                <h2 id="totalPixels">Loading...</h2>
+            </div>
+
+        </div>
+
+        <br>
+
+        <div class="prototype">
+            <strong>⚠️ Prototype Result</strong>
+            <p>
+                This result represents a 256 × 256 test patch
+                using NDWI. It is not a full-lake measurement
+                or confirmed encroachment detection.
+            </p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>💧 Water Mask</h2>
+        <img id="waterMask" alt="Water Mask">
+    </div>
+
+    <div class="card">
+        <h2>🛰️ Satellite Visualization</h2>
+        <img id="satelliteImage" alt="Satellite Visualization">
+    </div>
+
+</div>
+
+<footer>
+    Satellite-Based Lake Monitoring AI System
+</footer>
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -11,6 +155,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     fetch(API_URL + "/monitoring")
         .then(function(response) {
+            if (!response.ok) {
+                throw new Error("API returned status " + response.status);
+            }
             return response.json();
         })
         .then(function(data) {
@@ -41,3 +188,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 </script>
+
+</body>
+</html>
