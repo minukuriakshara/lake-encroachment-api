@@ -8,8 +8,8 @@
 
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
+            font-family: Arial, sans-serif;
             background: #f4f7f9;
             color: #222;
         }
@@ -17,8 +17,8 @@
         header {
             background: #0b5d7a;
             color: white;
-            padding: 25px;
             text-align: center;
+            padding: 30px 15px;
         }
 
         .container {
@@ -29,28 +29,35 @@
 
         .card {
             background: white;
-            padding: 20px;
+            padding: 25px;
             margin-bottom: 25px;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
         }
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
         }
 
         .stat {
-            padding: 20px;
             background: #e8f4f8;
-            border-radius: 10px;
+            padding: 20px;
             text-align: center;
+            border-radius: 10px;
         }
 
         .stat h2 {
-            margin: 5px 0;
             color: #0b5d7a;
+            font-size: 28px;
+        }
+
+        .prototype {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #ffc107;
         }
 
         img {
@@ -61,17 +68,26 @@
             border-radius: 8px;
         }
 
-        .prototype {
-            background: #fff3cd;
-            padding: 15px;
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #0b5d7a;
+            color: white;
+            text-decoration: none;
             border-radius: 8px;
-            border-left: 5px solid #ffc107;
+            margin-top: 10px;
         }
 
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 25px;
             color: #666;
+        }
+
+        @media (max-width: 700px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -87,9 +103,11 @@
 
     <div class="card">
         <h2>📍 Monitoring Location</h2>
+
         <p><strong>Lake:</strong> Hussain Sagar Lake, Hyderabad</p>
         <p><strong>Satellite:</strong> Sentinel-2</p>
         <p><strong>Image Date:</strong> 2026-09-06</p>
+        <p><strong>Method:</strong> NDWI</p>
     </div>
 
     <div class="card">
@@ -99,17 +117,17 @@
 
             <div class="stat">
                 <p>Detected Water</p>
-                <h2 id="waterPercentage">Loading...</h2>
+                <h2>62.50%</h2>
             </div>
 
             <div class="stat">
                 <p>Water Pixels</p>
-                <h2 id="waterPixels">Loading...</h2>
+                <h2>40,959</h2>
             </div>
 
             <div class="stat">
                 <p>Total Pixels</p>
-                <h2 id="totalPixels">Loading...</h2>
+                <h2>65,536</h2>
             </div>
 
         </div>
@@ -118,22 +136,45 @@
 
         <div class="prototype">
             <strong>⚠️ Prototype Result</strong>
+
             <p>
                 This result represents a 256 × 256 test patch
                 using NDWI. It is not a full-lake measurement
-                or confirmed encroachment detection.
+                and does not confirm actual lake encroachment.
             </p>
         </div>
     </div>
 
     <div class="card">
         <h2>💧 Water Mask</h2>
-        <img id="waterMask" alt="Water Mask">
+
+        <img
+            src="https://lake-monitoring-api.onrender.com/water-mask"
+            alt="Water Mask">
     </div>
 
     <div class="card">
         <h2>🛰️ Satellite Visualization</h2>
-        <img id="satelliteImage" alt="Satellite Visualization">
+
+        <img
+            src="https://lake-monitoring-api.onrender.com/satellite-image"
+            alt="Satellite Visualization">
+    </div>
+
+    <div class="card">
+        <h2>🚀 Backend API</h2>
+
+        <p>
+            The monitoring backend is deployed permanently using
+            FastAPI and Render.
+        </p>
+
+        <a
+            class="button"
+            href="https://lake-monitoring-api.onrender.com"
+            target="_blank">
+            Open API
+        </a>
     </div>
 
 </div>
@@ -142,52 +183,11 @@
     Satellite-Based Lake Monitoring AI System
 </footer>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-
-    const API_URL = "https://lake-monitoring-api.onrender.com";
-
-    document.getElementById("waterMask").src =
-        API_URL + "/water-mask";
-
-    document.getElementById("satelliteImage").src =
-        API_URL + "/satellite-image";
-
-    fetch(API_URL + "/monitoring")
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error("API returned status " + response.status);
-            }
-            return response.json();
-        })
-        .then(function(data) {
-
-            document.getElementById("waterPercentage").textContent =
-                data.detected_water_percentage + "%";
-
-            document.getElementById("waterPixels").textContent =
-                Number(data.water_pixels).toLocaleString();
-
-            document.getElementById("totalPixels").textContent =
-                Number(data.total_pixels).toLocaleString();
-
-        })
-        .catch(function(error) {
-
-            console.error("Monitoring API error:", error);
-
-            document.getElementById("waterPercentage").textContent =
-                "API Error";
-
-            document.getElementById("waterPixels").textContent =
-                "API Error";
-
-            document.getElementById("totalPixels").textContent =
-                "API Error";
-        });
-
-});
-</script>
-
 </body>
 </html>
+
+        
+
+
+     
+      
