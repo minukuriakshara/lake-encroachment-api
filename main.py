@@ -267,11 +267,37 @@ def satellite_image():
     return {
         "status": "Satellite image not found"
     }
-    
-           
 
-   
+@app.get("/latest-result")
+def latest_result():
+    result_file = os.path.join(
+        BASE_DIR,
+        "durgam_cheruvu_monitoring_result.json"
+    )
 
-   
-    
-    
+    if not os.path.exists(result_file):
+        return {"error": "Monitoring result not found"}
+
+    import json
+
+    with open(result_file, "r") as f:
+        return json.load(f)
+
+
+@app.get("/spatial-water-mask")
+def spatial_water_mask():
+    image_path = os.path.join(
+        BASE_DIR,
+        "durgam_cheruvu_water_mask.png"
+    )
+
+    if not os.path.exists(image_path):
+        return {
+            "error": "Spatial water mask image not found"
+        }
+
+    return FileResponse(
+        image_path,
+        media_type="image/png"
+    )
+
