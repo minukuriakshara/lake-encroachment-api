@@ -1,38 +1,43 @@
 <script>
-const API_URL = "https://lake-monitoring-api.onrender.com";
+document.addEventListener("DOMContentLoaded", function() {
 
-document.getElementById("waterMask").src =
-    API_URL + "/water-mask";
+    const API_URL = "https://lake-monitoring-api.onrender.com";
 
-document.getElementById("satelliteImage").src =
-    API_URL + "/satellite-image";
+    document.getElementById("waterMask").src =
+        API_URL + "/water-mask";
 
-fetch(API_URL + "/monitoring")
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
+    document.getElementById("satelliteImage").src =
+        API_URL + "/satellite-image";
 
-        document.getElementById("waterPercentage").textContent =
-            data.detected_water_percentage + "%";
+    fetch(API_URL + "/monitoring")
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
 
-        document.getElementById("waterPixels").textContent =
-            Number(data.water_pixels).toLocaleString();
+            document.getElementById("waterPercentage").textContent =
+                data.detected_water_percentage + "%";
 
-        document.getElementById("totalPixels").textContent =
-            Number(data.total_pixels).toLocaleString();
+            document.getElementById("waterPixels").textContent =
+                Number(data.water_pixels).toLocaleString();
 
-    })
-    .catch(function(error) {
-        console.error("Monitoring API error:", error);
+            document.getElementById("totalPixels").textContent =
+                Number(data.total_pixels).toLocaleString();
 
-        document.getElementById("waterPercentage").textContent =
-            "API Error";
+        })
+        .catch(function(error) {
 
-        document.getElementById("waterPixels").textContent =
-            "API Error";
+            console.error("Monitoring API error:", error);
 
-        document.getElementById("totalPixels").textContent =
-            "API Error";
-    });
+            document.getElementById("waterPercentage").textContent =
+                "API Error";
+
+            document.getElementById("waterPixels").textContent =
+                "API Error";
+
+            document.getElementById("totalPixels").textContent =
+                "API Error";
+        });
+
+});
 </script>
