@@ -1,4 +1,13 @@
-@app.get("/monitor-change")
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+import os
+
+app = FastAPI(
+    title="Lake Encroachment Monitoring API",
+    description="Satellite-based lake monitoring prototype",
+    version="1.0"
+)
 def monitor_change(
     lake_name: str,
     latitude: float,
